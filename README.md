@@ -10,7 +10,7 @@ This utility simplifies installing and uninstalling PMDG liveries for MSFS 2024,
 # Compability
 MSFS 2024
 # Download
-Latest release: https://github.com/CHsle123/pmdg_livery_installer/releases/latest
-or
-Flightsim.to: 
+  Latest release: https://github.com/CHsle123/pmdg_livery_installer/releases/latest
+  
+  Flightsim.to: 
 https://flightsim.to/addon/111732/pmdg-livery-installer-by-xiao-chen
