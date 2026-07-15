@@ -1,4 +1,5 @@
 # PMDG Livery Installer
+This utility simplifies installing and uninstalling PMDG liveries for MSFS 2024, supporting both .zip (OC3) and .ptp formats.
 # Features
 - Install liveries in .zip (OC3 format) and .ptp formats to the Community folder.
 - Supports custom installation directories with symbolic links created in the Community folder (convenient for MSFS Addons Linker users).
@@ -9,6 +10,7 @@
 # Compability
 MSFS 2024
 # Download
-Latest release:https://github.com/CHsle123/pmdg_livery_installer/releases/tag/v1.6
+Latest release: https://github.com/CHsle123/pmdg_livery_installer/releases/latest
 or
-Flightsim.to：https://flightsim.to/addon/111732/pmdg-livery-installer-by-xiao-chen
+Flightsim.to: 
+https://flightsim.to/addon/111732/pmdg-livery-installer-by-xiao-chen
