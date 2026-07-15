@@ -9,6 +9,7 @@
 # Compability
 MSFS 2024
 # Download
-Latest release: 
+Latest release:
+https://github.com/CHsle123/pmdg_livery_installer/releases/tag/v1.6
 or
-Flightsim.to
+Flightsim.to：https://flightsim.to/addon/111732/pmdg-livery-installer-by-xiao-chen
