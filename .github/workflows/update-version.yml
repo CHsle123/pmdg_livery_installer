@@ -1,0 +1,39 @@
+# 1. 给工作流起个名字
+name: Update version.json
+
+# 2. 定义触发条件：当有新的 Release 发布时触发
+on:
+  release:
+    types: [published]
+
+# 3. 定义权限：允许工作流修改仓库内容
+permissions:
+  contents: write
+
+# 4. 定义要执行的任务
+jobs:
+  update-version-file:
+    # 指定运行环境
+    runs-on: ubuntu-latest
+    # 定义具体的执行步骤
+    steps:
+      # 步骤1：将仓库代码签出到运行器上
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 步骤2：使用第三方 Action 更新 version.json 文件
+      - name: Update version.json
+        uses: maxgfr/github-change-json@v1  # [reference:12]
+        with:
+          file: version.json  # 要更新的文件
+          key: version        # 要修改的字段
+          value: ${{ github.event.release.tag_name }}  # 新值：来自 Release 的标签名
+
+      # 步骤3：提交更改并推送回仓库
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add version.json
+          git commit -m "chore: update version.json to ${{ github.event.release.tag_name }}" || echo "No changes to commit"
+          git push
