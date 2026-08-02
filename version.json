@@ -1,6 +1,0 @@
-{
-    "version": "1.9",
-    "filename": "pmdg_livery_installer_setup.exe",
-    "download_url": "https://github.com/CHsle123/pmdg_livery_installer/releases/download/v1.9/pmdg_livery_installer_setup.exe",
-    "release_notes": "修复了若干问题\n- 优化 PTP 安装速度\n- 修正 738 机型 livery.json 生成错误"
-}
