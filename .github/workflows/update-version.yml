@@ -14,11 +14,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref || 'main' }}
+          ref: main
           fetch-depth: 0
 
       - name: Update version.json
         run: |
+          # 确保在 main 分支上
+          git checkout main || git checkout -b main
+          
+          # 获取 Release 信息
           TAG_NAME="${{ github.event.release.tag_name }}"
           VERSION="${TAG_NAME#v}"
           RELEASE_BODY="${{ github.event.release.body || '' }}"
@@ -41,5 +45,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add version.json
-          git commit -m "chore: update version.json to ${{ github.event.release.tag_name }}" || exit 0
-          git push
+          git commit -m "chore: update version.json to ${{ github.event.release.tag_name }}" || echo "No changes to commit"
+          git push origin main
