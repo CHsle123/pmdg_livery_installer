@@ -1,51 +1,60 @@
 name: Update version.json
 
-# 触发条件：当有新 Release 发布时
 on:
   release:
     types: [published]
 
-# 权限：允许写入仓库内容
 permissions:
   contents: write
 
 jobs:
-  update-version-file:
+  update-version:
     runs-on: ubuntu-latest
     steps:
-      # 第一步：签出代码
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 第二步：更新 version.json
       - name: Update version.json
         run: |
           # 获取 Release 信息
           TAG_NAME="${{ github.event.release.tag_name }}"
-          VERSION="${TAG_NAME#v}"  # 去掉 v 前缀，如 v1.9 -> 1.9
-          RELEASE_BODY="${{ github.event.release.body }}"
+          VERSION="${TAG_NAME#v}"
+          RELEASE_BODY="${{ github.event.release.body || '' }}"
           REPO="${{ github.repository }}"
           
-          # 自动生成下载链接
-          DOWNLOAD_URL="https://github.com/${REPO}/releases/download/${TAG_NAME}/pmdg_livery_installer_latest_setup.exe"
+          # 指定附件名称（与您上传到 Release 的文件名一致）
+          ASSET_NAME="pmdg_livery_installer_latest_setup.exe"
           
-          # 如果 version.json 不存在，先创建
+          # 构建下载链接
+          DOWNLOAD_URL="https://github.com/${REPO}/releases/download/${TAG_NAME}/${ASSET_NAME}"
+          
+          # 如果 version.json 不存在，创建默认内容
           if [ ! -f version.json ]; then
-            echo '{"version": "", "filename": "pmdg_livery_installer_setup.exe", "download_url": "", "release_notes": ""}' > version.json
+            echo '{"version": "", "download_url": "", "release_notes": ""}' > version.json
           fi
           
-          # 使用 jq 更新 JSON（jq 是 GitHub Runner 内置工具）
+          # 使用 jq 更新 JSON
           jq --arg version "$VERSION" \
              --arg download_url "$DOWNLOAD_URL" \
              --arg release_notes "$RELEASE_BODY" \
              '.version = $version | .download_url = $download_url | .release_notes = $release_notes' \
              version.json > tmp.json && mv tmp.json version.json
+          
+          # 验证 JSON 是否有效
+          if ! jq empty version.json 2>/dev/null; then
+            echo "生成的 JSON 无效，请检查"
+            cat version.json
+            exit 1
+          fi
 
-      # 第三步：提交并推送更改
       - name: Commit and push changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add version.json
-          git commit -m "chore: update version.json to ${{ github.event.release.tag_name }}" || echo "No changes to commit"
-          git push
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: update version.json to ${{ github.event.release.tag_name }}"
+            git push
+          fi
