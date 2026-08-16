@@ -1,6 +1,6 @@
 {
-  "version": "1.6.4",
+  "version": "1.6.3",
   "filename": "pmdg_livery_installer_latest_setup.exe",
-  "download_url": "https://github.com/CHsle123/pmdg_livery_installer/releases/download/v1.6.4/pmdg_livery_installer_latest_setup.exe",
-  "release_notes": "测试更新"
+  "download_url": "https://github.com/CHsle123/pmdg_livery_installer/releases/download/v1.6.3/pmdg_livery_installer_latest_setup.exe",
+  "release_notes": "CH/中文：\r\n- 修复了一些可能会影响使用的bug\r\nEN/English：\r\n- Fixed some bugs that might affect usability."
 }
