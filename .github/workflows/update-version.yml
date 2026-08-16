@@ -13,6 +13,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          # 获取完整历史，避免 detached HEAD 问题
+          fetch-depth: 0
+          # 明确指定分支
+          ref: main
 
       - name: Update version.json
         run: |
@@ -22,7 +27,7 @@ jobs:
           RELEASE_BODY="${{ github.event.release.body || '' }}"
           REPO="${{ github.repository }}"
           
-          # 指定附件名称（与您上传到 Release 的文件名一致）
+          # 指定附件名称
           ASSET_NAME="pmdg_livery_installer_latest_setup.exe"
           
           # 构建下载链接
@@ -56,5 +61,6 @@ jobs:
             echo "No changes to commit"
           else
             git commit -m "chore: update version.json to ${{ github.event.release.tag_name }}"
-            git push
+            # 直接推送到当前分支（main）
+            git push origin HEAD:main
           fi
