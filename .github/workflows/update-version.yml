@@ -27,7 +27,7 @@ jobs:
           REPO="${{ github.repository }}"
           
           # 自动生成下载链接
-          DOWNLOAD_URL="https://github.com/${REPO}/releases/download/${TAG_NAME}/pmdg_livery_installer_setup.exe"
+          DOWNLOAD_URL="https://github.com/${REPO}/releases/download/${TAG_NAME}/pmdg_livery_installer_latest_setup.exe"
           
           # 如果 version.json 不存在，先创建
           if [ ! -f version.json ]; then
